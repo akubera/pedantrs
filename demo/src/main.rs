@@ -1,9 +1,6 @@
 #![feature(plugin)]
 #![plugin(pedantrs)]
 
-#[allow(plugin_as_library)]
-extern crate pedantrs;
-
 use std::thread;
 use std::sync::{Arc, Mutex};
 

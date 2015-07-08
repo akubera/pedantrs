@@ -1,0 +1,7 @@
+[package]
+name = "dining_philosophers"
+version = "0.1.0"
+authors = ["Sean Heelan <sean.heelan.com>"]
+
+[dependencies.pedantrs]
+path = "../../pedantrs"
