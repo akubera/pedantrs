@@ -1,4 +1,11 @@
 [package]
 name = "pedantrs"
+description = "A Rust linter, purely for educational purposes"
 version = "0.1.0"
 authors = ["Sean Heelan <sean.heelan@gmail.com>"]
+repository = "https://github.com/SeanHeelan/pedantrs"
+license = "MIT"
+
+[lib]
+name = "pedantrs"
+plugin = true
