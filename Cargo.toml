@@ -1,0 +1,4 @@
+[package]
+name = "pedantrs"
+version = "0.1.0"
+authors = ["Sean Heelan <sean.heelan@gmail.com>"]
