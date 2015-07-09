@@ -1,5 +1,5 @@
 [package]
-name = "dining_philosophers"
+name = "demo"
 version = "0.1.0"
 authors = ["Sean Heelan <sean.heelan.com>"]
 
