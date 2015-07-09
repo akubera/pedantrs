@@ -7,6 +7,11 @@
 //! 
 //! * (WARN) Check that the number of arguments accepted to each function is
 //!     not excessively large
+//! * (WARN) Check that functions nest expressions excessively deeply
+//! * (WARN) Check that public and private constants are documented
+//! * (WARN) Check that private functions, structs, enums, traits and 
+//!     constants are documented. Their public equivalents are checked by the
+//!     compiler-provided 'missing_docs' lint.
 
 extern crate syntax;
 // Load rustc as a plugin to get macros
@@ -22,4 +27,6 @@ mod lints;
 pub fn plugin_registrar(reg: &mut Registry) {
     reg.register_lint_pass(
         box lints::function_arg_count::Pass as LintPassObject);
+    reg.register_lint_pass(
+        box lints::const_missing_docs::Pass as LintPassObject);
 }
