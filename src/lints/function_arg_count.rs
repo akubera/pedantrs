@@ -13,9 +13,10 @@ declare_lint!(FN_ARG_LIST_LENGTH, Warn, "Warn about long argument lists");
 pub struct Pass;
 
 fn get_max_args_allowed(kind: &FnKind) -> usize {
-    match kind {
-        &FnKind::FkFnBlock => MAX_ARGS_FOR_CLOSURE,
-        _ => MAX_ARGS_DEFAULT
+    if let &FnKind::FkFnBlock = kind {
+        MAX_ARGS_FOR_CLOSURE
+    } else {
+        MAX_ARGS_DEFAULT
     }
 }
 
