@@ -4,8 +4,6 @@
 use std::thread;
 use std::sync::{Arc, Mutex};
 
-fn lintme() {}
-
 struct Philosopher {
     name: String,
     left: usize,
@@ -33,6 +31,9 @@ impl Philosopher {
         thread::sleep_ms(1000);
         println!("{} is done eating", self.name);
     }
+}
+
+fn lots_of_args(_: i32, _: i32, _: i32, _: i32, _:i32, _: i32, _: i32) {
 }
 
 fn main() {
@@ -63,6 +64,6 @@ fn main() {
     for h in handles {
         h.join().unwrap();
     }
-    
-    lintme();
+
+    lots_of_args(1, 2, 3, 4, 5, 6, 7);
 }
