@@ -14,6 +14,23 @@ fn lots_of_args(_: i32, _: i32, _: i32, _: i32, _:i32, _: i32, _: i32) {
 fn not_so_many_args(_: i32, _: i32, _: i32, _: i32, _:i32, _:i32) {
 }
 
+fn nesting(a: i32, b: i32, c: i32, d: i32) {
+    // Warn
+    if a > b {
+        if b > c {
+            if c > d {
+                println!("Waaaay");
+            }
+        }
+    }
+    // No warn
+    if a > b {
+        if b > c {
+            println!("Waaaay");
+        }
+    }
+}
+
 fn main() {
     lots_of_args(1, 2, 3, 4, 5, 6, 7);
     not_so_many_args(1, 2, 3, 4, 5, 6);
@@ -22,4 +39,6 @@ fn main() {
     let _ = |_: i32, _: i32, _: i32, _: i32, _: i32| {}; 
     // No warn
     let _ = |_: i32, _: i32, _: i32, _: i32| {}; 
+
+    nesting(1, 2, 3, 4);
 }
