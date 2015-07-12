@@ -31,6 +31,21 @@ fn nesting(a: i32, b: i32, c: i32, d: i32) {
         }
     } 
 
+    match a {
+        1 => {
+            if a > b {
+                // The warning would normally take place at this level if we
+                // were just counting opening parenthesis as a nesting, but for
+                // match expressions we ignore the nesting introduced by the 
+                // match expression itself and instead start counting from the 
+                // arms.
+                if c > d {
+                    println!("Warn for this block");
+                }
+            } 
+        },
+        _ => println!("No warn this block")
+    }
 }
 
 fn main() {

@@ -32,6 +32,17 @@ fn expr_to_blocks(e: &Expr) -> Vec<&Block> {
             Expr_::ExprWhileLet(_, _, ref body, _)  |
             Expr_::ExprLoop(ref body, _) => vec![&body],
 
+        Expr_::ExprMatch(_, ref arms, _) => {
+            // For match expressions we ignore the nesting introduced by the 
+            // 'match' and just consider the arms
+            let mut blocks = Vec::new();
+            for ref a in arms {
+                let mut arm_blocks = expr_to_blocks(&a.body);
+                blocks.append(&mut arm_blocks);
+            }
+            blocks
+        },
+
         _ => return vec![],
     }
 }

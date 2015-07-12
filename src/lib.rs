@@ -1,6 +1,7 @@
 #![deny(missing_docs)]
 #![feature(plugin_registrar)]
 #![feature(box_syntax, rustc_private)]
+#![feature(append)]
 
 //! A simple linter, written for educational purposes. The following lints are
 //! provided:
