@@ -18,7 +18,8 @@ impl LintPass for Pass {
         match &i.node {
             &Item_::ItemConst(..) | &Item_::ItemFn(..) | 
                 &Item_::ItemImpl(..) | &Item_::ItemTrait(..) |
-                &Item_::ItemStruct(..) | &Item_::ItemEnum(..) => {
+                &Item_::ItemStruct(..) | &Item_::ItemEnum(..) | 
+                &Item_::ItemMod(..) => {
                     if let Visibility::Public = i.vis {
                         // Publicly visible items are handled by other lints
                         return;
