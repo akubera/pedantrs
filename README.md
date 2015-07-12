@@ -6,4 +6,6 @@ exist:
   excessively large.
 * (WARN) Check that public constants are documented.
 * (WARN) Check that functions don't use overly deep nesting of expressions
+* (WARN) Check that private functions, traits, impls, modules, enums and structs
+  are documented.
 

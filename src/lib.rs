@@ -10,9 +10,9 @@
 //!     not excessively large
 //! * (WARN) Check that functions nest expressions excessively deeply
 //! * (WARN) Check that public and private constants are documented
-//! * (WARN) Check that private functions, structs, enums, traits and 
-//!     constants are documented. Their public equivalents are checked by the
-//!     compiler-provided 'missing_docs' lint.
+//! * (WARN) Check that private functions, structs, enums, traits, impls, 
+//!     mods and constants are documented. Their public equivalents are checked 
+//!     by the compiler-provided 'missing_docs' lint.
 
 extern crate syntax;
 // Load rustc as a plugin to get macros
