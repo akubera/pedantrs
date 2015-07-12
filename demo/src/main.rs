@@ -15,20 +15,22 @@ fn not_so_many_args(_: i32, _: i32, _: i32, _: i32, _:i32, _:i32) {
 }
 
 fn nesting(a: i32, b: i32, c: i32, d: i32) {
-    // Warn
     if a > b {
         if b > c {
             if c > d {
-                println!("Waaaay");
+                println!("Warn for this block");
+            } else {
+                println!("Also warn for this block");
             }
         }
     }
-    // No warn
+
     if a > b {
         if b > c {
-            println!("Waaaay");
+            println!("No warn for this block");
         }
-    }
+    } 
+
 }
 
 fn main() {

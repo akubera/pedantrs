@@ -16,8 +16,17 @@ fn expr_to_blocks(e: &Expr) -> Vec<&Block> {
     match e.node {
         Expr_::ExprBlock(ref inner_block) => vec![&inner_block],
 
-        Expr_::ExprIf(_, ref if_block, _) | 
-            Expr_::ExprIfLet(_, _, ref if_block, _) => vec![&if_block],
+        Expr_::ExprIf(_, ref if_block, ref else_opt) | 
+            Expr_::ExprIfLet(_, _, ref if_block, ref else_opt) => 
+            {
+                if let Some(ref else_expr) = *else_opt {
+                    let mut else_blocks = expr_to_blocks(&else_expr);
+                    else_blocks.push(&if_block);
+                    else_blocks
+                } else {
+                    vec![&if_block]
+                }
+            },
 
         Expr_::ExprWhile(_, ref body, _) |
             Expr_::ExprWhileLet(_, _, ref body, _)  |
