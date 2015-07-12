@@ -32,4 +32,6 @@ pub fn plugin_registrar(reg: &mut Registry) {
         box lints::const_missing_docs::Pass as LintPassObject);
     reg.register_lint_pass(
         box lints::expression_nesting::Pass as LintPassObject);
+    reg.register_lint_pass(
+        box lints::private_missing_docs::Pass as LintPassObject);
 }

@@ -1,11 +1,17 @@
 #![feature(plugin)]
 #![plugin(pedantrs)]
+#![allow(dead_code)]
 
 // Warn
 pub const UNDOCUMENTED_CONST: i32 = 6;
 // No warn
 /// Documentation
 pub const DOCUMENTED_CONST: i32 = 6;
+
+const UNDOCUMENTED_PRIVATE_CONST: i32 = 6;
+
+/// Documentation
+const DOCUMENTED_PRIVATE_CONST: i32 = 6;
 
 // Warn
 fn lots_of_args(_: i32, _: i32, _: i32, _: i32, _:i32, _: i32, _: i32) {
