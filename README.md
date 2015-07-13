@@ -1,6 +1,6 @@
 # pedantrs
-A Rust linter, purely for educational purposes. Currently the following lints
-exist:
+A Rust linter, purely for educational purposes. I have implemented the following
+lints:
 
 * (WARN) Check that the number of arguments accepted to each function is not
   excessively large.
