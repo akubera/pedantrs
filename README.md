@@ -25,8 +25,8 @@ to add `pedantrs` as a depedency, then you need to enable the plugin at the
 crate level within your project.
 
 See the `demo` folder for an example of an application which makes use of the
-linter. When you build this application `pedantrs` will be invoked on the source
-code and a series of warnings generated.
+linter. When you build this application `pedantrs` will be invoked and a series
+of warnings generated.
 
 [docs]: https://doc.rust-lang.org/book/compiler-plugins.html#lint-plugins
 [nightly]: http://doc.rust-lang.org/book/nightly-rust.html
