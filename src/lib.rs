@@ -5,13 +5,13 @@
 
 //! A simple linter, written for educational purposes. The following lints are
 //! provided:
-//! 
+//!
 //! * (WARN) Check that the number of arguments accepted to each function is
 //!     not excessively large
 //! * (WARN) Check that functions nest expressions excessively deeply
 //! * (WARN) Check that public and private constants are documented
-//! * (WARN) Check that private functions, structs, enums, traits, impls, 
-//!     mods and constants are documented. Their public equivalents are checked 
+//! * (WARN) Check that private functions, structs, enums, traits, impls,
+//!     mods and constants are documented. Their public equivalents are checked
 //!     by the compiler-provided 'missing_docs' lint.
 
 extern crate syntax;

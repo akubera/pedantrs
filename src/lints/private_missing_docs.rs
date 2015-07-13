@@ -3,7 +3,7 @@
 use syntax::ast::{Item, Item_, Visibility};
 use rustc::lint::{Context, LintArray, LintPass};
 
-declare_lint!(PRIV_MISSING_DOCS, Warn, 
+declare_lint!(PRIV_MISSING_DOCS, Warn,
     "Warn about private traits, impls, functions and const items without \
     documentation");
 
@@ -37,5 +37,3 @@ impl LintPass for Pass {
         }
     }
 }
-                
-

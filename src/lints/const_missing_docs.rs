@@ -3,7 +3,7 @@
 use syntax::ast::{Item, Item_, Visibility};
 use rustc::lint::{Context, LintArray, LintPass};
 
-declare_lint!(PUB_CONST_DOCS, Warn, 
+declare_lint!(PUB_CONST_DOCS, Warn,
     "Warn about public const items without documentation");
 
 pub struct Pass;
@@ -23,5 +23,3 @@ impl LintPass for Pass {
         }
     }
 }
-                
-

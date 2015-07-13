@@ -1,4 +1,4 @@
-//! Check that functions don't accept an "excessive" number of arguments. 
+//! Check that functions don't accept an "excessive" number of arguments.
 
 use syntax::ast::{Block, FnDecl, NodeId};
 use syntax::codemap::Span;
@@ -25,8 +25,13 @@ impl LintPass for Pass {
         lint_array!(FN_ARG_LIST_LENGTH)
     }
 
-    fn check_fn(&mut self, cx: &Context, kind: FnKind, decl: &FnDecl, _: &Block,
-                span: Span, _: NodeId) {
+    fn check_fn(&mut self,
+                cx: &Context,
+                kind: FnKind,
+                decl: &FnDecl,
+                _: &Block,
+                span: Span,
+                _: NodeId) {
         if decl.inputs.len() > get_max_args_allowed(&kind) {
             cx.span_lint(FN_ARG_LIST_LENGTH, span, 
                          "function has an excessive number of arguments");

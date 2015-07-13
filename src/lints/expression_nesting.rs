@@ -7,7 +7,7 @@ use rustc::lint::{Context, LintArray, LintPass};
 
 const MAX_NESTING_DEPTH: u32 = 2;
 
-declare_lint!(FN_EXPR_NESTING_DEPTH, Warn, 
+declare_lint!(FN_EXPR_NESTING_DEPTH, Warn,
     "Warn about deeply nested expressions");
 
 pub struct Pass;
@@ -65,7 +65,7 @@ fn check_nesting(cx: &Context, b: &Block, level: u32) {
             }
             &Stmt_::StmtDecl(_, _) | &Stmt_::StmtMac(_, _) => continue,
         }
-    } 
+    }
 
     // ... followed by an optional expression
     if let Some(ref e) = b.expr {
@@ -80,8 +80,13 @@ impl LintPass for Pass {
         lint_array!(FN_EXPR_NESTING_DEPTH)
     }
 
-    fn check_fn(&mut self, cx: &Context, _: FnKind, _: &FnDecl, block: &Block, 
-                _: Span, _: NodeId) {
+    fn check_fn(&mut self,
+                cx: &Context,
+                _: FnKind,
+                _: &FnDecl,
+                block: &Block,
+                _: Span,
+                _: NodeId) {
         check_nesting(cx, &block, 0);
     }
 }
