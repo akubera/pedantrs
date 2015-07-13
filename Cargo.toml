@@ -9,3 +9,6 @@ license = "MIT"
 [lib]
 name = "pedantrs"
 plugin = true
+
+[dependencies.clippy]
+git = "https://github.com/Manishearth/rust-clippy"
