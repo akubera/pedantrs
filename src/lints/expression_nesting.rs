@@ -3,7 +3,7 @@
 use syntax::ast::{Block, FnDecl, NodeId, Expr_, Expr, Stmt_};
 use syntax::codemap::Span;
 use syntax::visit::FnKind;
-use rustc::lint::{Context, LintArray, LintPass};
+use rustc::lint::{EarlyContext, EarlyLintPass, LintArray, LintPass, LintContext};
 
 const MAX_NESTING_DEPTH: u32 = 2;
 
@@ -32,7 +32,7 @@ fn expr_to_blocks(e: &Expr) -> Vec<&Block> {
             Expr_::ExprWhileLet(_, _, ref body, _)  |
             Expr_::ExprLoop(ref body, _) => vec![&body],
 
-        Expr_::ExprMatch(_, ref arms, _) => {
+        Expr_::ExprMatch(_, ref arms) => {
             // For match expressions we ignore the nesting introduced by the 
             // 'match' and just consider the arms
             let mut blocks = Vec::new();
@@ -47,7 +47,7 @@ fn expr_to_blocks(e: &Expr) -> Vec<&Block> {
     }
 }
 
-fn check_nesting(cx: &Context, b: &Block, level: u32) {
+fn check_nesting(cx: &EarlyContext, b: &Block, level: u32) {
     if level > MAX_NESTING_DEPTH {
         cx.span_lint(FN_EXPR_NESTING_DEPTH, b.span, 
                      "function has excessive nesting of expressions");
@@ -56,14 +56,14 @@ fn check_nesting(cx: &Context, b: &Block, level: u32) {
 
     // Blocks consist of a vector of statements ...
     for s in &b.stmts {
-        match &s.node {
-            &Stmt_::StmtExpr(ref e, _) | &Stmt_::StmtSemi(ref e, _) => {
+        match s.node {
+            Stmt_::StmtExpr(ref e, _) | Stmt_::StmtSemi(ref e, _) => {
                 for inner_block in expr_to_blocks(&e) {
                     check_nesting(cx, inner_block, level + 1);
                 }
                 continue;
             }
-            &Stmt_::StmtDecl(_, _) | &Stmt_::StmtMac(_, _) => continue,
+            Stmt_::StmtDecl(_, _) | Stmt_::StmtMac(_, _) => continue,
         }
     }
 
@@ -79,9 +79,11 @@ impl LintPass for Pass {
     fn get_lints(&self) -> LintArray {
         lint_array!(FN_EXPR_NESTING_DEPTH)
     }
+}
 
+impl EarlyLintPass for Pass {
     fn check_fn(&mut self,
-                cx: &Context,
+                cx: &EarlyContext,
                 _: FnKind,
                 _: &FnDecl,
                 block: &Block,

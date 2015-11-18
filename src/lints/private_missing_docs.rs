@@ -1,7 +1,7 @@
 //! Check that public constants have documentation
 
 use syntax::ast::{Item, Item_, Visibility};
-use rustc::lint::{Context, LintArray, LintPass};
+use rustc::lint::{EarlyContext, EarlyLintPass, LintArray, LintPass, LintContext};
 
 declare_lint!(PRIV_MISSING_DOCS, Warn,
     "Warn about private traits, impls, functions and const items without \
@@ -13,13 +13,15 @@ impl LintPass for Pass {
     fn get_lints(&self) -> LintArray {
         lint_array!(PRIV_MISSING_DOCS)
     }
+}
 
-    fn check_item(&mut self, cx: &Context, i: &Item) {
-        match &i.node {
-            &Item_::ItemConst(..) | &Item_::ItemFn(..) | 
-                &Item_::ItemImpl(..) | &Item_::ItemTrait(..) |
-                &Item_::ItemStruct(..) | &Item_::ItemEnum(..) | 
-                &Item_::ItemMod(..) => {
+impl EarlyLintPass for Pass {
+    fn check_item(&mut self, cx: &EarlyContext, i: &Item) {
+        match i.node {
+            Item_::ItemConst(..) | Item_::ItemFn(..) | 
+                Item_::ItemImpl(..) | Item_::ItemTrait(..) |
+                Item_::ItemStruct(..) | Item_::ItemEnum(..) | 
+                Item_::ItemMod(..) => {
                     if let Visibility::Public = i.vis {
                         // Publicly visible items are handled by other lints
                         return;
