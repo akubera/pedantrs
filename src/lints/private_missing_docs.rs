@@ -1,4 +1,4 @@
-//! Check that public constants have documentation
+//! Check that private traits, impls, functions and const items have docs
 
 use syntax::ast::{Item, Item_, Visibility};
 use rustc::lint::{EarlyContext, EarlyLintPass, LintArray, LintPass, LintContext};
