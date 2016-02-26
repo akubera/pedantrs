@@ -1,6 +1,6 @@
 //! Check that public constants have documentation
 
-use syntax::ast::{Item, Item_, Visibility};
+use syntax::ast::{Item, ItemKind, Visibility};
 use rustc::lint::{EarlyContext, EarlyLintPass, LintArray, LintPass, LintContext};
 
 declare_lint!(PUB_CONST_DOCS, Warn,
@@ -16,10 +16,10 @@ impl LintPass for Pass {
 
 impl EarlyLintPass for Pass {
     fn check_item(&mut self, cx: &EarlyContext, i: &Item) {
-        if let (&Item_::ItemConst(..), Visibility::Public) = (&i.node, i.vis) {
+        if let (&ItemKind::Const(..), Visibility::Public) = (&i.node, i.vis) {
             let doc_found = i.attrs.iter().find(|a| a.node.is_sugared_doc);
             if let None = doc_found {
-                cx.span_lint(PUB_CONST_DOCS, i.span, 
+                cx.span_lint(PUB_CONST_DOCS, i.span,
                             "public constant is missing documentation");
             }
         }

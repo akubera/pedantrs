@@ -1,8 +1,11 @@
 //! Check that functions don't contain excessive nesting of expressions
 
-use syntax::ast::{Block, FnDecl, NodeId, Expr_, Expr, Stmt_};
+extern crate rustc_front;
+
+use syntax::ast::{Block, FnDecl, NodeId, Expr, ExprKind, StmtKind};
 use syntax::codemap::Span;
 use syntax::visit::FnKind;
+use self::rustc_front::hir::{Expr_, Stmt_};
 use rustc::lint::{EarlyContext, EarlyLintPass, LintArray, LintPass, LintContext};
 
 const MAX_NESTING_DEPTH: u32 = 2;
@@ -14,10 +17,10 @@ pub struct Pass;
 
 fn expr_to_blocks(e: &Expr) -> Vec<&Block> {
     match e.node {
-        Expr_::ExprBlock(ref inner_block) => vec![&inner_block],
+        ExprKind::Block(ref inner_block) => vec![&inner_block],
 
-        Expr_::ExprIf(_, ref if_block, ref else_opt) | 
-            Expr_::ExprIfLet(_, _, ref if_block, ref else_opt) => 
+        ExprKind::If(_, ref if_block, ref else_opt) |
+            ExprKind::IfLet(_, _, ref if_block, ref else_opt) =>
             {
                 if let Some(ref else_expr) = *else_opt {
                     let mut else_blocks = expr_to_blocks(&else_expr);
@@ -28,12 +31,12 @@ fn expr_to_blocks(e: &Expr) -> Vec<&Block> {
                 }
             },
 
-        Expr_::ExprWhile(_, ref body, _) |
-            Expr_::ExprWhileLet(_, _, ref body, _)  |
-            Expr_::ExprLoop(ref body, _) => vec![&body],
+        ExprKind::While(_, ref body, _) |
+            ExprKind::WhileLet(_, _, ref body, _)  |
+            ExprKind::Loop(ref body, _) => vec![&body],
 
-        Expr_::ExprMatch(_, ref arms) => {
-            // For match expressions we ignore the nesting introduced by the 
+        ExprKind::Match(_, ref arms) => {
+            // For match expressions we ignore the nesting introduced by the
             // 'match' and just consider the arms
             let mut blocks = Vec::new();
             for ref a in arms {
@@ -49,7 +52,7 @@ fn expr_to_blocks(e: &Expr) -> Vec<&Block> {
 
 fn check_nesting(cx: &EarlyContext, b: &Block, level: u32) {
     if level > MAX_NESTING_DEPTH {
-        cx.span_lint(FN_EXPR_NESTING_DEPTH, b.span, 
+        cx.span_lint(FN_EXPR_NESTING_DEPTH, b.span,
                      "function has excessive nesting of expressions");
         return;
     }
@@ -57,13 +60,13 @@ fn check_nesting(cx: &EarlyContext, b: &Block, level: u32) {
     // Blocks consist of a vector of statements ...
     for s in &b.stmts {
         match s.node {
-            Stmt_::StmtExpr(ref e, _) | Stmt_::StmtSemi(ref e, _) => {
+            StmtKind::Expr(ref e, _) | StmtKind::Semi(ref e, _) => {
                 for inner_block in expr_to_blocks(&e) {
                     check_nesting(cx, inner_block, level + 1);
                 }
                 continue;
             }
-            Stmt_::StmtDecl(_, _) | Stmt_::StmtMac(_, _) => continue,
+            StmtKind::Decl(_, _) | StmtKind::Mac(_, _, _) => continue,
         }
     }
 

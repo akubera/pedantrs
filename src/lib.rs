@@ -21,8 +21,10 @@ extern crate syntax;
 // Load rustc as a plugin to get macros
 #[macro_use]
 extern crate rustc;
+extern crate rustc_plugin;
+
 use rustc::lint::EarlyLintPassObject;
-use rustc::plugin::Registry;
+use rustc_plugin::Registry;
 
 mod lints;
 
