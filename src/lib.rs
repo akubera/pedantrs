@@ -31,12 +31,8 @@ mod lints;
 /// Register the lints
 #[plugin_registrar]
 pub fn plugin_registrar(reg: &mut Registry) {
-    reg.register_early_lint_pass(
-        box lints::function_arg_count::Pass as EarlyLintPassObject);
-    reg.register_early_lint_pass(
-        box lints::const_missing_docs::Pass as EarlyLintPassObject);
-    reg.register_early_lint_pass(
-        box lints::expression_nesting::Pass as EarlyLintPassObject);
-    reg.register_early_lint_pass(
-        box lints::private_missing_docs::Pass as EarlyLintPassObject);
+    reg.register_early_lint_pass(box lints::function_arg_count::Pass as EarlyLintPassObject);
+    reg.register_early_lint_pass(box lints::const_missing_docs::Pass as EarlyLintPassObject);
+    reg.register_early_lint_pass(box lints::expression_nesting::Pass as EarlyLintPassObject);
+    reg.register_early_lint_pass(box lints::private_missing_docs::Pass as EarlyLintPassObject);
 }

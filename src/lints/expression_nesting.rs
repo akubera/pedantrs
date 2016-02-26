@@ -10,8 +10,9 @@ use rustc::lint::{EarlyContext, EarlyLintPass, LintArray, LintPass, LintContext}
 
 const MAX_NESTING_DEPTH: u32 = 2;
 
-declare_lint!(FN_EXPR_NESTING_DEPTH, Warn,
-    "Warn about deeply nested expressions");
+declare_lint!(FN_EXPR_NESTING_DEPTH,
+              Warn,
+              "Warn about deeply nested expressions");
 
 pub struct Pass;
 
@@ -20,20 +21,19 @@ fn expr_to_blocks(e: &Expr) -> Vec<&Block> {
         ExprKind::Block(ref inner_block) => vec![&inner_block],
 
         ExprKind::If(_, ref if_block, ref else_opt) |
-            ExprKind::IfLet(_, _, ref if_block, ref else_opt) =>
-            {
-                if let Some(ref else_expr) = *else_opt {
-                    let mut else_blocks = expr_to_blocks(&else_expr);
-                    else_blocks.push(&if_block);
-                    else_blocks
-                } else {
-                    vec![&if_block]
-                }
-            },
+        ExprKind::IfLet(_, _, ref if_block, ref else_opt) => {
+            if let Some(ref else_expr) = *else_opt {
+                let mut else_blocks = expr_to_blocks(&else_expr);
+                else_blocks.push(&if_block);
+                else_blocks
+            } else {
+                vec![&if_block]
+            }
+        }
 
         ExprKind::While(_, ref body, _) |
-            ExprKind::WhileLet(_, _, ref body, _)  |
-            ExprKind::Loop(ref body, _) => vec![&body],
+        ExprKind::WhileLet(_, _, ref body, _) |
+        ExprKind::Loop(ref body, _) => vec![&body],
 
         ExprKind::Match(_, ref arms) => {
             // For match expressions we ignore the nesting introduced by the
@@ -44,7 +44,7 @@ fn expr_to_blocks(e: &Expr) -> Vec<&Block> {
                 blocks.append(&mut arm_blocks);
             }
             blocks
-        },
+        }
 
         _ => return vec![],
     }
@@ -52,7 +52,8 @@ fn expr_to_blocks(e: &Expr) -> Vec<&Block> {
 
 fn check_nesting(cx: &EarlyContext, b: &Block, level: u32) {
     if level > MAX_NESTING_DEPTH {
-        cx.span_lint(FN_EXPR_NESTING_DEPTH, b.span,
+        cx.span_lint(FN_EXPR_NESTING_DEPTH,
+                     b.span,
                      "function has excessive nesting of expressions");
         return;
     }

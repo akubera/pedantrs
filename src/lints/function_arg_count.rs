@@ -35,7 +35,8 @@ impl EarlyLintPass for Pass {
                 span: Span,
                 _: NodeId) {
         if decl.inputs.len() > get_max_args_allowed(&kind) {
-            cx.span_lint(FN_ARG_LIST_LENGTH, span, 
+            cx.span_lint(FN_ARG_LIST_LENGTH,
+                         span,
                          "function has an excessive number of arguments");
         }
     }

@@ -3,8 +3,9 @@
 use syntax::ast::{Item, ItemKind, Visibility};
 use rustc::lint::{EarlyContext, EarlyLintPass, LintArray, LintPass, LintContext};
 
-declare_lint!(PUB_CONST_DOCS, Warn,
-    "Warn about public const items without documentation");
+declare_lint!(PUB_CONST_DOCS,
+              Warn,
+              "Warn about public const items without documentation");
 
 pub struct Pass;
 
@@ -19,8 +20,9 @@ impl EarlyLintPass for Pass {
         if let (&ItemKind::Const(..), Visibility::Public) = (&i.node, i.vis) {
             let doc_found = i.attrs.iter().find(|a| a.node.is_sugared_doc);
             if let None = doc_found {
-                cx.span_lint(PUB_CONST_DOCS, i.span,
-                            "public constant is missing documentation");
+                cx.span_lint(PUB_CONST_DOCS,
+                             i.span,
+                             "public constant is missing documentation");
             }
         }
     }
