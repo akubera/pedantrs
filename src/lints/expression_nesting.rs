@@ -5,7 +5,6 @@ extern crate rustc_front;
 use syntax::ast::{Block, FnDecl, NodeId, Expr, ExprKind, StmtKind};
 use syntax::codemap::Span;
 use syntax::visit::FnKind;
-use self::rustc_front::hir::{Expr_, Stmt_};
 use rustc::lint::{EarlyContext, EarlyLintPass, LintArray, LintPass, LintContext};
 
 const MAX_NESTING_DEPTH: u32 = 2;
